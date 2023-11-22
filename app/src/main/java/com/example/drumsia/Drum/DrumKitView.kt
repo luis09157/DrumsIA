@@ -12,15 +12,22 @@ import com.example.drumsia.Reproductor.UtilPlayer
 class DrumKitView(context: Context) : View(context) {
 
     private val drums = mutableListOf<Drum>()
+    private val MAX_FINGERS = 10
 
     init {
         // Carga las imágenes desde recursos y establece las escalas y posiciones
-        drums.add(Drum("Drum1", R.raw.drum_1, loadBitmap(R.drawable.drum1), 0.1f, setXPosPercentage(50f),setYPosPercentage(50f)))
-        drums.add(Drum("Drum2", R.raw.drum_2, loadBitmap(R.drawable.drum2), 0.1f, 200f, 200f))
-        drums.add(Drum("Drum3", R.raw.drum_3, loadBitmap(R.drawable.drum1), 0.1f, 400f, 400f))
+        drums.add(Drum("Drum1", R.raw.drum_1, loadBitmap(R.drawable.drum1), 0.2f, setXPosPercentage(50f),setYPosPercentage(50f)))
+        drums.add(Drum("Drum2", R.raw.drum_2, loadBitmap(R.drawable.drum2), 0.25f, setXPosPercentage(40f),setYPosPercentage(70f)))
+        drums.add(Drum("Drum3", R.raw.drum_2, loadBitmap(R.drawable.drum2), 0.25f, setXPosPercentage(60f),setYPosPercentage(70f)))
+        drums.add(Drum("Drum4", R.raw.drum_3, loadBitmap(R.drawable.drum1), 0.1f, setXPosPercentage(10f),setYPosPercentage(40f)))
 
         // Agrega más imágenes, escalas y posiciones según sea necesario
-        setOnTouchListener { _, event -> handleTouch(event) }
+        setOnTouchListener { _, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> handleMultiTouchDown(event)
+            }
+            true
+        }
 
     }
 
@@ -53,30 +60,25 @@ class DrumKitView(context: Context) : View(context) {
             null
         )
     }
+    private fun handleMultiTouchDown(event: MotionEvent) {
+        val pointerCount = event.pointerCount
 
-    private fun handleTouch(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            val touchX = event.x
-            val touchY = event.y
+        for (i in 0 until minOf(pointerCount, MAX_FINGERS)) {
+            val touchX = event.getX(i)
+            val touchY = event.getY(i)
 
-            println("x:  ${touchX} y: ${touchY}")
+            // ... Resto del código ...
 
-            // Verifica si el toque está dentro del área de algún tambor
             for (drum in drums) {
                 if (isTouchInsideDrum(touchX, touchY, drum)) {
                     // Se tocó un tambor, realiza la acción deseada
                     println("Tocaste el tambor ${drum.id}")
                     UtilPlayer.playWav(context, drum.midiResourceId)
-                    // Aquí puedes llamar a la función para reproducir el sonido MIDI o WAV
-                    // playMidi(drum.midiResourceId)
-                    // playWav(context, drum.wavResourceId)
-
-                    break
                 }
             }
         }
-        return false
     }
+
 
     private fun isTouchInsideDrum(touchX: Float, touchY: Float, drum: Drum): Boolean {
         val scaledWidth = drum.bitmap.width * drum.scale
