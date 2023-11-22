@@ -8,6 +8,5 @@ data class Drum(
  var bitmap: Bitmap,
  var scale: Float,
  var xPosition: Float,
- var yPosition: Float,
- val originalYPosition: Float
+ var yPosition: Float
 )
