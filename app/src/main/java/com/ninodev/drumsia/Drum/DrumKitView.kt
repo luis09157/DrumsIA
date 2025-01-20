@@ -1,4 +1,4 @@
-package com.example.drumsia.Drum
+package com.ninodev.drumsia.Drum
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,9 +6,10 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.View
-import com.example.drumsia.Model.Drum
-import com.example.drumsia.R
-import com.example.drumsia.Reproductor.UtilPlayer
+import com.ninodev.drumsia.Model.Drum
+import com.ninodev.drumsia.Reproductor.UtilPlayer
+import com.ninodev.drumsia.R
+
 class DrumKitView(context: Context) : View(context) {
 
     private val drums = mutableListOf<Drum>()

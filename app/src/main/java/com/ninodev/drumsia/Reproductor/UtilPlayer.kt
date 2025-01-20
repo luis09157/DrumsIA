@@ -1,4 +1,4 @@
-package com.example.drumsia.Reproductor
+package com.ninodev.drumsia.Reproductor
 
 import android.content.Context
 import android.media.AudioAttributes

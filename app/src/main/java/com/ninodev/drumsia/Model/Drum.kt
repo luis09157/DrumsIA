@@ -1,4 +1,4 @@
-package com.example.drumsia.Model
+package com.ninodev.drumsia.Model
 
 import android.graphics.Bitmap
 
